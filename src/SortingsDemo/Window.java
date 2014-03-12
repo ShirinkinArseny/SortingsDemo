@@ -17,8 +17,6 @@ public class Window {
 
     private static int currentSorting = -1;
     private static boolean isWorking = true;
-    private static Color mainColor = new Color(0.4f, 0.4f, 0.4f, 1f);
-    private static Color topColor = new Color(0.7f, 0.7f, 0.7f, 1f);
     private static MasterControl masterControl = new MasterControl();
     private static Sort[] sorts;
 
@@ -44,7 +42,6 @@ public class Window {
             Display.setVSyncEnabled(true);
             Display.create();
             Display.setTitle("Sorts");
-            glClearColor(0.4f, 0.4f, 0.4f, 1f);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glOrtho(0, w, h, 0, 1, 0);
@@ -64,7 +61,7 @@ public class Window {
                 try {
                     masterControl.update(Mouse.getX(), Display.getHeight() - Mouse.getY(), Mouse.isButtonDown(0));
                 }
-                catch (Exception e){ cancel(); }
+                catch (Exception e) {cancel();  }
             }
         }, 0, 10);
         System.out.println("[WINDOW] " + Language.MSG_UpdateTimerCreated);
@@ -104,14 +101,16 @@ public class Window {
 
     private static void drawWhileWorks() {
         while (!Display.isCloseRequested()) {
+            glClearColor(Control.getBackgroundColor().r, Control.getBackgroundColor().g,
+                    Control.getBackgroundColor().b, Control.getBackgroundColor().a);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             glBegin(GL_QUADS);
             {
-                topColor.bind();
+                Control.getLightBackgroundColor().bind();
                 glVertex2f(0, 0);
                 glVertex2f(Display.getWidth(), 0);
-                mainColor.bind();
+                Control.getBackgroundColor().bind();
                 glVertex2f(Display.getWidth(), 300);
                 glVertex2f(0, 300);
                 masterControl.drawBackground();

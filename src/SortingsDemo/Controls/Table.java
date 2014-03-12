@@ -17,7 +17,7 @@ public class Table extends Control implements Sortable {
     private float[] array;//Array, which will be sorted
     private float[] arrayColors;//Colors of rows
     private float[] arrayIdealPos;//Positions of rows (when they are not moving)
-    private Color[][] colorType;//Color for every gradation
+    private Color[][][] colorType;//Color for every gradation
     private ArrayList<Integer> queueToMove;
     private Random rnd;
     private float rowWidth;//Width of rows
@@ -86,10 +86,15 @@ public class Table extends Control implements Sortable {
         arrayColors = new float[rowsCount];
         variables = new String[rowsCount][2];
         needToDrawVariable = new boolean[rowsCount][2];
-        colorType = new Color[256][2];
+        colorType = new Color[256][2][2];
         for (int i = 0; i < 256; i++) {
-            colorType[i][0] = new Color(i / 256f, 0f, 0f, 0.5f);
-            colorType[i][1] = new Color(i / 256f, 0f, 0f, 0.2f);
+            for (int j=0; j<selectionColor.length; j++) {
+            colorType[i][0][j] = mixColors(rowSelectionColor[j],
+                    rowColor[j], i/255f);
+            colorType[i][1][j] = mixColors(rowSelectionColor[j],
+                    rowColor[j], i/255f);
+            colorType[i][1][j].a=0.2f;
+            }
         }
         arrayIdealPos = new float[rowsCount];
         for (int i = 0; i < rowsCount; i++) {
@@ -181,25 +186,26 @@ public class Table extends Control implements Sortable {
 
     public void drawRows() {
         for (int i = 0; i < rowsCount; i++) {
-            colorType[(int) arrayColors[i]][0].bind();
+            colorType[(int) arrayColors[i]][0][currentColorTheme].bind();
             glVertex2f(x + arrayPos[i], y2 - array[i] - 10);
             glVertex2f(x + arrayPos[i], y2 - 30);
             glVertex2f(x + arrayPos[i] + rowWidth, y2 - 30);
             glVertex2f(x + arrayPos[i] + rowWidth, y2 - array[i] - 10);
+            if (drawShadow){
             float xx2 = x + arrayPos[i] + array[i] * (arrayPos[i] / arrayIdealPos[rowsCount - 1] - 0.5f) * 0.4f;
             float yy2 = y2 + array[i] * 0.25f - 30;
             Color.transparent.bind();
             glVertex2f(xx2, yy2);
-            colorType[(int) arrayColors[i]][1].bind();
+            colorType[(int) arrayColors[i]][1][currentColorTheme].bind();
             glVertex2f(x + arrayPos[i], y2 - 30);
             glVertex2f(x + arrayPos[i] + rowWidth, y2 - 30);
             Color.transparent.bind();
-            glVertex2f(rowWidth + xx2, yy2);
+            glVertex2f(rowWidth + xx2, yy2);  }
         }
     }
 
     public void drawVariableMarks() {
-        colorType[0][0].bind();
+        textColor[currentColorTheme].bind();
         for (int i = 0; i < rowsCount; i++) {
             if (needToDrawVariable[i][0] || needToDrawVariable[i][1]) {
                 glVertex2f(x + arrayPos[i], y2 - 25);
@@ -211,7 +217,7 @@ public class Table extends Control implements Sortable {
     }
 
     public void drawVariables() {
-        colorType[0][0].bind();
+        textColor[currentColorTheme].bind();
         for (int i = 0; i < rowsCount; i++) {
             if (needToDrawVariable[i][0]) {
                 SortingsDemo.Font.drawString(x + arrayPos[i], y2 - 20, variables[i][0], Color.black);

@@ -41,13 +41,14 @@ public class SelectBox extends Control {
 
     public void drawTitle() {
         for (int i = 0; i < size; i++) {
-            Font.drawString(x+ coordX[i], y, texts[i], (i==selectedItem)?textDarkColor:textColor);
+            Font.drawString(x+ coordX[i], y, texts[i],
+                    (i==selectedItem)? textColor[currentColorTheme]: textLightColor[currentColorTheme]);
         }
     }
 
     public void drawBackground() {
         super.drawBackground();
-        colors[isSelected].bind();
+        colors[isSelected][currentColorTheme].bind();
         float selectorStart=x + selectorPosition;
         glVertex2f(selectorStart + 3, y + 3);
         glVertex2f(selectorStart + 3, y2 - 3);

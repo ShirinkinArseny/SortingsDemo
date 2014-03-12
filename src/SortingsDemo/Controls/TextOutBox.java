@@ -10,7 +10,7 @@ public class TextOutBox extends Control {
     }
 
     public void drawTitle() {
-        Font.drawString(x, y, text, textDarkColor);
+        Font.drawString(x, y, text, textColor[currentColorTheme]);
     }
 
     public void drawBackground() {

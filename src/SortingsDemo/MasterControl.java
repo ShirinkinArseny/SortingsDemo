@@ -13,7 +13,7 @@ import static SortingsDemo.Window.setCurrentSorting;
 public class MasterControl extends Control {
 
     private static ArrayList<Control> controls;
-    private static final Table table = new Table(30, 10, 940, 300);
+    private static final Table table = new Table(30, 60, 940, 320);
 
     public MasterControl() {
 
@@ -159,6 +159,17 @@ public class MasterControl extends Control {
                 bigButtonsStartY+bigButtonsSize+3*emptySpace, statisticLineWidth, titleHeight,
                 Language.TITLE_Moves + " " + table.getMoves());
         controls.add(moves);
+
+        ThemeButton themeSwitch=new ThemeButton(titleSpaceX+sortNamesWidth-smallButtonSize, bigButtonsStartY + bigButtonsSize + emptySpace,
+                smallButtonSize, smallButtonSize);
+        themeSwitch.setEvent(new Runnable() {
+            @Override
+            public void run() {
+                       Control.changeColorTheme();
+            }
+        });
+        controls.add(themeSwitch);
+
 
         table.setAction(new Runnable() {
             @Override

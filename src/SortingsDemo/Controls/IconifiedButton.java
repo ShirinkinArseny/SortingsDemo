@@ -20,7 +20,7 @@ public abstract class IconifiedButton extends Button {
 
     public void drawBackground() {
         super.drawBackground();
-        colors[isSelected].bind();
+        colors[isSelected][currentColorTheme].bind();
         for (int i=0; i<count; i++){
         glVertex2f(rows[i].getX(), rows[i].getY());
         glVertex2f(rows[i].getX(), rows[i].getY2());

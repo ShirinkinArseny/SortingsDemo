@@ -20,9 +20,9 @@ public class PauseButton extends IconifiedButton {
     public void drawBackground() {
         super.drawBackground();
         if (isChecked)
-        colors[gradations-1].bind();
+        colors[gradations-1][currentColorTheme].bind();
         else
-        colors[isSelected/2].bind();
+        colors[isSelected/2][currentColorTheme].bind();
         for (int i=0; i<count; i++){
             glVertex2f(rows[i].getX(), rows[i].getY());
             glVertex2f(rows[i].getX(), rows[i].getY2());
