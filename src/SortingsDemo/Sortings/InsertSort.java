@@ -34,7 +34,7 @@ public class InsertSort extends Sort {
     }
 
     public String getCompares(int count) {
-        return Language.TITLE_Maximum+String.valueOf(count*Math.log(count));
+        return "";
     }
 
     public String getMoves(int count) {

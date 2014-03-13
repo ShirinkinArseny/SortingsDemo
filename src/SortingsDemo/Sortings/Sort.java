@@ -8,6 +8,17 @@ public abstract class Sort {
     public Sort() {
     }
 
+    protected static int log2(int count) {
+        int c=1;
+        int i=1;
+        while (c<count) {
+            c*=2;
+            if (c>=count) return i;
+            i++;
+        }
+        return -1;
+    }
+
     public void sort(Sortable array) {
     }
 

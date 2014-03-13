@@ -1,6 +1,5 @@
 package SortingsDemo.Sortings;
 
-
 import SortingsDemo.Language;
 
 public class HeapSort extends Sort {
@@ -8,7 +7,7 @@ public class HeapSort extends Sort {
     public HeapSort() {
     }
 
-    private int add2pyramid(Sortable arr, int i, int N)
+    private int addToTree(Sortable arr, int i, int N)
     {
         int iMax;
         if ((2 * i + 2) < N)
@@ -29,42 +28,42 @@ public class HeapSort extends Sort {
         return i;
     }
 
-    private void Pyramid_Sort(Sortable arr, int len)
+    private void treeSort(Sortable arr, int length)
     {
-        //step 1: building the pyramid
-        for (int i = len / 2 - 1; i >= 0; --i)
+        for (int i = length / 2 - 1; i >= 0; i--)
         {
-            if (isTimeToBreak()) break;
+            if (isTimeToBreak()) return;
             arr.unSetAllVariables();
             arr.setVariableName(i, false, "i");
             tryToSleep(arr);
-            long prev_i = i;
-            i = add2pyramid(arr, i, len);
-            if (prev_i != i) ++i;
+
+            int prev_i = i;
+            i = addToTree(arr, i, length);
+            if (prev_i != i) i++;
         }
 
-        //step 2: sorting
-        for (int k = len - 1; k > 0; --k)
+        for (int k = length - 1; k > 0; k--)
         {
-            if (isTimeToBreak()) break;
+            if (isTimeToBreak()) return;
             arr.unSetAllVariables();
             arr.setVariableName(0, false, "k");
             arr.swap(0, k);
             tryToSleep(arr);
-            int i = 0, prev_i = -1;
+            int i = 0;
+            int prev_i = -1;
             while (i != prev_i)
             {
                 arr.unSetAllVariables();
                 arr.setVariableName(0, true, "prev_i="+prev_i);
                 prev_i = i;
-                i = add2pyramid(arr, i, k);
+                i = addToTree(arr, i, k);
             }
         }
     }
 
     public void sort(Sortable array) {
         if (!isTimeToBreak()) {
-            Pyramid_Sort(array, array.getItemsCount());
+            treeSort(array, array.getItemsCount());
             doneSorting(array);
         }
     }
@@ -75,6 +74,6 @@ public class HeapSort extends Sort {
     }
 
     public String getMoves(int count) {
-        return "";
+        return Language.TITLE_Maximum+String.valueOf(count*log2(count));
     }
 }
